@@ -80,8 +80,8 @@ RenderButton (
 
   // Compute button width and height.
   //
-  Width  = (this->m_pButton->ButtonBounds.Right - this->m_pButton->ButtonBounds.Left + 1);
-  Height = (this->m_pButton->ButtonBounds.Bottom - this->m_pButton->ButtonBounds.Top + 1);
+  Width  = SWM_RECT_WIDTH (this->m_pButton->ButtonBounds);
+  Height = SWM_RECT_HEIGHT (this->m_pButton->ButtonBounds);
 
   // Draw the button's - outer rectangle first.
   //
@@ -185,9 +185,8 @@ SetControlBounds (
 
   // Translate (and possibly resize) button text bounding box.
   //
-  SWM_RECT  *TextRect  = &this->m_pButton->ButtonTextBounds;
-  UINT32    TextWidth  = (TextRect->Right - TextRect->Left + 1);
-  UINT32    TextHeight = (TextRect->Bottom - TextRect->Top + 1);
+  UINT32    TextWidth  = SWM_RECT_WIDTH(this->m_pButton->ButtonTextBounds);
+  UINT32    TextHeight = SWM_RECT_HEIGHT(this->m_pButton->ButtonTextBounds);
 
   Bounds.Left  += TextOffsetX;
   Bounds.Top   += TextOffsetY;

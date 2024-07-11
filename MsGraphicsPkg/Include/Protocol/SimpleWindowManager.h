@@ -58,6 +58,15 @@ typedef struct _SWM_RECT_tag {
   UINT32    Bottom;
 } SWM_RECT;
 
+#define SWM_RECT_WIDTH(Rect)             ((Rect).Right - (Rect).Left + 1)
+#define SWM_RECT_HEIGHT(Rect)            ((Rect).Bottom - (Rect).Top + 1)
+#define SWM_RECT_INIT(Rect, T, L, W, H)  do { \
+  (Rect).Top    = (T); \
+  (Rect).Left   = (L); \
+  (Rect).Bottom = (T) + (H) - 1; \
+  (Rect).Right  = (L) + (W) - 1; \
+} while (0)
+
 // Supported user input types.
 //
 #define SWM_INPUT_TYPE_TOUCH  0x00000001
