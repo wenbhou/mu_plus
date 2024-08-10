@@ -2955,6 +2955,19 @@ RegisterWithSimpleWindowManager (
     goto Exit;
   }
 
+  //
+  // Set the client to default to active in order to handle the absolute pointer input events
+  //
+  Status = mSWMProtocol->ActivateWindow (
+                           mSWMProtocol,
+                           ImageHandle,
+                           TRUE
+                           );
+  if (EFI_ERROR (Status)) {
+    DEBUG ((DEBUG_ERROR, "ERROR [DE]: Failed to activate window (%r).\r\n", Status));
+    goto Exit;
+  }
+
 Exit:
 
   return Status;
