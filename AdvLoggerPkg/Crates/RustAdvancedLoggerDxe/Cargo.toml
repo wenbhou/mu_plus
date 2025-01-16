@@ -9,7 +9,15 @@ name = "rust_advanced_logger_dxe"
 path = "src/lib.rs"
 
 [dependencies]
+<<<<<<< HEAD
 r-efi = {workspace=true}
+=======
+r-efi = { workspace = true }
+mu_uefi_boot_services = { workspace = true }
+
+[dev-dependencies]
+mu_uefi_boot_services = { workspace = true, features = ["mockall"] }
+>>>>>>> 32dcdccd (Update crate dependencies to use crates.io (#619))
 
 [features]
 std = []

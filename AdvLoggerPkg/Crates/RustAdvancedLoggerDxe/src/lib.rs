@@ -83,9 +83,17 @@ impl AdvancedLogger {
     }
 
     // initialize the AdvancedLogger by acquiring a pointer to the AdvancedLogger protocol.
+<<<<<<< HEAD
     fn init(&self, bs: *mut BootServices) {
         assert!(!bs.is_null(), "BootServices should not be NULL");
         let boot_services = unsafe { &mut ptr::read(bs) };
+=======
+    fn init(&self, boot_services_impl: &impl boot_services::BootServices) {
+        let protocol_ptr = match unsafe { boot_services_impl.locate_protocol(&ADVANCED_LOGGER_PROTOCOL, None) } {
+            Ok(interface) => interface as *mut AdvancedLoggerProtocolInterface,
+            Err(_status) => ptr::null_mut(),
+        };
+>>>>>>> 32dcdccd (Update crate dependencies to use crates.io (#619))
 
         let mut ptr: *mut c_void = ptr::null_mut();
 
@@ -312,7 +320,18 @@ mod tests {
 
     #[test]
     fn init_should_initialize_logger() {
+<<<<<<< HEAD
         let mut boot_services = mock_boot_services();
+=======
+        let mut mock_boot_services = boot_services::MockBootServices::new();
+        mock_boot_services.expect_locate_protocol().returning(|_: &AdvancedLoggerProtocol, registration| unsafe {
+            assert_eq!(registration, None);
+            Ok((&ADVANCED_LOGGER_INSTANCE as *const AdvancedLoggerProtocolInterface
+                as *mut AdvancedLoggerProtocolInterface)
+                .as_mut()
+                .unwrap())
+        });
+>>>>>>> 32dcdccd (Update crate dependencies to use crates.io (#619))
         static TEST_LOGGER: AdvancedLogger = AdvancedLogger::new();
         TEST_LOGGER.init(&mut boot_services);
 
@@ -324,8 +343,20 @@ mod tests {
 
     #[test]
     fn debug_macro_should_log_things() {
+<<<<<<< HEAD
         let mut boot_services = mock_boot_services();
         init_debug(&mut boot_services);
+=======
+        let mut mock_boot_services = boot_services::MockBootServices::new();
+        mock_boot_services.expect_locate_protocol().returning(|_: &AdvancedLoggerProtocol, registration| unsafe {
+            assert_eq!(registration, None);
+            Ok((&ADVANCED_LOGGER_INSTANCE as *const AdvancedLoggerProtocolInterface
+                as *mut AdvancedLoggerProtocolInterface)
+                .as_mut()
+                .unwrap())
+        });
+        LOGGER.init(&mock_boot_services);
+>>>>>>> 32dcdccd (Update crate dependencies to use crates.io (#619))
 
         assert_eq!(
             LOGGER.protocol.load(Ordering::SeqCst) as *const AdvancedLoggerProtocol,
