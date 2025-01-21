@@ -2196,6 +2196,7 @@ UiDisplayMenu (
       //
       if (SWM_INPUT_TYPE_TOUCH == InputState.InputType) {
         MasterFrameSharedState->ShowTopMenuHighlight = FALSE;
+        FormHasKeyFocus                              = FALSE;
       }
 
       gUserInput->Action = BROWSER_ACTION_FORM_EXIT;
