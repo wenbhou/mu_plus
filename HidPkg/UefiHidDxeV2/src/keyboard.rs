@@ -524,6 +524,9 @@ impl HidReportReceiver for KeyboardHidHandler {
     fn initialize(&mut self, controller: efi::Handle, hid_io: &dyn HidIo) -> Result<(), efi::Status> {
         let descriptor = hid_io.get_report_descriptor()?;
         self.process_descriptor(descriptor)?;
+        // Set the key toggle state here so that the subsequent reset() can send the LED state to the device.
+        self.set_key_toggle_state(protocols::simple_text_input_ex::CAPS_LOCK_ACTIVE);
+        self.reset(hid_io, true)?;
         self.install_protocol_interfaces(controller)?;
         self.initialize_keyboard_layout()?;
         Ok(())
