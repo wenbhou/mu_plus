@@ -822,6 +822,7 @@ mod test {
         let boot_services = create_fake_static_boot_service();
         let mut keyboard_handler = KeyboardHidHandler::new(boot_services, 1 as efi::Handle);
         let mut hid_io = MockHidIo::new();
+        hid_io.expect_set_output_report().returning(|_, _| Ok(()));
         hid_io
             .expect_get_report_descriptor()
             .returning(|| Ok(hidparser::parse_report_descriptor(&MOUSE_REPORT_DESCRIPTOR).unwrap()));
@@ -843,6 +844,7 @@ mod test {
 
         let mut keyboard_handler = KeyboardHidHandler::new(boot_services, 1 as efi::Handle);
         let mut hid_io = MockHidIo::new();
+        hid_io.expect_set_output_report().returning(|_, _| Ok(()));
         hid_io
             .expect_get_report_descriptor()
             .returning(|| Ok(hidparser::parse_report_descriptor(&BOOT_KEYBOARD_REPORT_DESCRIPTOR).unwrap()));
@@ -866,6 +868,7 @@ mod test {
 
         let mut keyboard_handler = KeyboardHidHandler::new(boot_services, 1 as efi::Handle);
         let mut hid_io = MockHidIo::new();
+        hid_io.expect_set_output_report().returning(|_, _| Ok(()));
         hid_io
             .expect_get_report_descriptor()
             .returning(|| Ok(hidparser::parse_report_descriptor(&BOOT_KEYBOARD_REPORT_DESCRIPTOR).unwrap()));
@@ -1091,6 +1094,7 @@ mod test {
         unsafe { HANDLER = &mut keyboard_handler as *mut KeyboardHidHandler };
 
         let mut hid_io = MockHidIo::new();
+        hid_io.expect_set_output_report().returning(|_, _| Ok(()));
         hid_io
             .expect_get_report_descriptor()
             .returning(|| Ok(hidparser::parse_report_descriptor(&BOOT_KEYBOARD_REPORT_DESCRIPTOR).unwrap()));
@@ -1161,6 +1165,7 @@ mod test {
 
         let mut keyboard_handler = KeyboardHidHandler::new(boot_services, 1 as efi::Handle);
         let mut hid_io = MockHidIo::new();
+        hid_io.expect_set_output_report().returning(|_, _| Ok(()));
         hid_io
             .expect_get_report_descriptor()
             .returning(|| Ok(hidparser::parse_report_descriptor(&BOOT_KEYBOARD_REPORT_DESCRIPTOR).unwrap()));
@@ -1225,6 +1230,7 @@ mod test {
 
         let mut keyboard_handler = KeyboardHidHandler::new(boot_services, 1 as efi::Handle);
         let mut hid_io = MockHidIo::new();
+        hid_io.expect_set_output_report().returning(|_, _| Ok(()));
         hid_io
             .expect_get_report_descriptor()
             .returning(|| Ok(hidparser::parse_report_descriptor(&BOOT_KEYBOARD_REPORT_DESCRIPTOR).unwrap()));
