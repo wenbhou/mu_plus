@@ -436,7 +436,6 @@ impl KeyboardHidHandler {
     /// Sets the current key state.
     pub fn set_key_toggle_state(&mut self, toggle_state: u8) {
         self.key_queue.set_key_toggle_state(toggle_state);
-        self.generate_led_output_reports();
     }
 
     /// Registers a new key notify callback function to be invoked on the specified `key_data` press.
@@ -525,6 +524,7 @@ impl HidReportReceiver for KeyboardHidHandler {
         self.process_descriptor(descriptor)?;
         // Set the key toggle state here so that the subsequent reset() can send the LED state to the device.
         self.set_key_toggle_state(protocols::simple_text_input_ex::CAPS_LOCK_ACTIVE);
+        self.update_leds(hid_io)?;
         self.reset(hid_io, true)?;
         self.install_protocol_interfaces(controller)?;
         self.initialize_keyboard_layout()?;
@@ -1017,7 +1017,8 @@ mod test {
             keyboard_layout_ptr: *mut protocols::hii_database::KeyboardLayout,
         ) -> efi::Status {
             let mut keyboard_layout_buffer = vec![0u8; 4096];
-            let buffer_size = keyboard_layout_buffer.pwrite(unsafe { &TEST_KEYBOARD_LAYOUT }, 0).unwrap();
+            let test_keyboard_layout = unsafe { TEST_KEYBOARD_LAYOUT.clone() };
+            let buffer_size = keyboard_layout_buffer.pwrite(&test_keyboard_layout, 0).unwrap();
             keyboard_layout_buffer.resize(buffer_size, 0);
             unsafe {
                 if keyboard_layout_length.read() < buffer_size as u16 {
