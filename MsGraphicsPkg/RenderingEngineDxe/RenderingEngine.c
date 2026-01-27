@@ -985,6 +985,12 @@ SREActivateSurface (
 
         // Save the contents of the framebuffer to this capture buffer.
         //
+        DEBUG ((DEBUG_INFO, "INFO [SRE]:(%a,%d) Surface->pCaptureBuffer=0x%p\n", __func__, __LINE__, Surface->pCaptureBuffer));
+        DEBUG ((DEBUG_INFO, "INFO [SRE]:(%a,%d) Surface->FrameRect.Left=%d\n", __func__, __LINE__, Surface->FrameRect.Left));
+        DEBUG ((DEBUG_INFO, "INFO [SRE]:(%a,%d) Surface->FrameRect.Top=%d\n", __func__, __LINE__, Surface->FrameRect.Top));
+        DEBUG ((DEBUG_INFO, "INFO [SRE]:(%a,%d) FrameWidth=%d\n", __func__, __LINE__, FrameWidth));
+        DEBUG ((DEBUG_INFO, "INFO [SRE]:(%a,%d) FrameHeight=%d\n", __func__, __LINE__, FrameHeight));
+        DEBUG ((DEBUG_INFO, "INFO [SRE]:(%a,%d) Gop->Blt() Start\n", __func__, __LINE__));
         mParentGop->Blt (
                       mParentGop,
                       Surface->pCaptureBuffer,
@@ -997,6 +1003,7 @@ SREActivateSurface (
                       FrameHeight,
                       0
                       );
+        DEBUG ((DEBUG_INFO, "INFO [SRE]:(%a,%d) Gop->Blt() End\n", __func__, __LINE__));
       } else {
         if (Surface->PreviousActive != NULL) {
           Surface->PreviousActive->Active = TRUE;
